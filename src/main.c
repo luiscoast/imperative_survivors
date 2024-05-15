@@ -4,19 +4,16 @@
 #include "screen.h"
 #include "timer.h"
 
-#define MAX_CORPO_LENGTH 30
 
 struct Inimigo {
     int x_inimigo;
     int y_inimigo;
-    char corpo[MAX_CORPO_LENGTH];
     struct Inimigo *proximo;
 };
 
 struct Personagem {
     int x_personagem;
     int y_personagem;
-    char corpo[MAX_CORPO_LENGTH];
 };
 
 
@@ -34,10 +31,9 @@ void print_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) {
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
     printf("     \n     \n     \n     \n     \n");
-    x = nextX;
-    y = nextY;
+    void novo_local(struct Inimigo *inimigo, struct Personagem *personagem);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
-    printf("Hello World");
+    printf("     \n     \n     \n     \n     \n");
 }
 
 void novo_local(struct Inimigo *inimigo, struct Personagem *personagem) {
