@@ -4,7 +4,7 @@
 #include "screen.h"
 #include "timer.h"
 
-#define MAX_CORPO_LENGTH 12
+#define MAX_CORPO_LENGTH 30
 
 struct Inimigo {
   int x_inimigo;
@@ -19,10 +19,15 @@ struct Personagem {
   char corpo[MAX_CORPO_LENGTH];
 };
 
+struct Proxima_posicao {
+    int x_proximo;
+    int y_proximo;
+};
+
 void print_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) {
   screenSetColor(CYAN, DARKGRAY);
   screenGotoxy(x, y);
-  printf("           ");
+  printf("     \n     \n     \n     \n     \n");
   x = nextX;
   y = nextY;
   screenGotoxy(x, y);
@@ -39,37 +44,48 @@ void print_personagem(struct Inimigo *inimigo, struct Personagem *personagem) {
   printf("Hello World");
 }
 
-void newloc(struct Inimigo *inimigo, struct Personagem *personagem){
+struct Proxima_posicao novo_local(struct Inimigo *inimigo, struct Personagem *personagem) {
     int x_inimigo_proximo, y_inimigo_proximo;
-    int x_inimigo_atual = inimigo -> x_inimigo;
-    int y_inimigo_atual = inimigo -> y_inimigo;
-    int x_personagem_atual = personagem -> x_personagem;
-    int y_personagem_atual = personagem -> y_personagem;
+    int x_inimigo_atual = inimigo->x_inimigo;
+    int y_inimigo_atual = inimigo->y_inimigo;
+    int x_personagem_atual = personagem->x_personagem;
+    int y_personagem_atual = personagem->y_personagem;
 
-    if (x_inimigo_atual > x_personagem_atual){
+    if (x_inimigo_atual > x_personagem_atual) {
         x_inimigo_proximo = x_inimigo_atual - 1;
-    }else if (x_inimigo_atual < x_personagem_atual){
+    } else if (x_inimigo_atual < x_personagem_atual) {
         x_inimigo_proximo = x_inimigo_atual + 1;
-    }else if(x_inimigo_atual == x_personagem_atual){
-        if (y_inimigo_atual > y_personagem_atual){
+    } else {
+        if (y_inimigo_atual > y_personagem_atual) {
             y_inimigo_proximo = y_inimigo_atual - 1;
-        }else if (x_inimigo_atual < x_personagem_atual){
+        } else if (y_inimigo_atual < y_personagem_atual) {
+            y_inimigo_proximo = y_inimigo_atual + 1;
+        } else {
+            x_inimigo_proximo = x_inimigo_atual;
             y_inimigo_proximo = y_inimigo_atual + 1;
         }
-    }        
-    
-    
-    if (y_inimigo_atual > y_personagem_atual){
+    }
+
+    if (y_inimigo_atual > y_personagem_atual) {
         y_inimigo_proximo = y_inimigo_atual - 1;
-    }else if (y_inimigo_atual < y_personagem_atual){
+    } else if (y_inimigo_atual < y_personagem_atual) {
         y_inimigo_proximo = y_inimigo_atual + 1;
-    }else if (y_inimigo_atual == y_personagem_atual){
-        if (x_inimigo_atual > x_personagem_atual){
+    } else {
+        if (x_inimigo_atual > x_personagem_atual) {
             x_inimigo_proximo = x_inimigo_atual - 1;
-        }else if (x_inimigo_atual < x_personagem_atual){
+        } else if (x_inimigo_atual < x_personagem_atual) {
             x_inimigo_proximo = x_inimigo_atual + 1;
+        } else {
+            x_inimigo_proximo = x_inimigo_atual + 1;
+            y_inimigo_proximo = y_inimigo_atual;
         }
     }
+
+    struct Proxima_posicao proxima_posicao;
+    proxima_posicao.x_proximo = x_inimigo_proximo;
+    proxima_posicao.y_proximo = y_inimigo_proximo;
+
+    return proxima_posicao;
 }
 
 int main() {
