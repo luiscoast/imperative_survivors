@@ -97,9 +97,6 @@ void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) 
             y_inimigo_proximo = y_inimigo_atual - 1;
         } else if (y_inimigo_atual < y_personagem_atual) {
             y_inimigo_proximo = y_inimigo_atual + 1;
-        } else {
-            x_inimigo_proximo = x_inimigo_atual;
-            y_inimigo_proximo = y_inimigo_atual + 1;
         }
     }
 
@@ -112,9 +109,6 @@ void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) 
             x_inimigo_proximo = x_inimigo_atual - 1;
         } else if (x_inimigo_atual < x_personagem_atual) {
             x_inimigo_proximo = x_inimigo_atual + 1;
-        } else {
-            x_inimigo_proximo = x_inimigo_atual + 1;
-            y_inimigo_proximo = y_inimigo_atual;
         }
     }
     inimigo->x_inimigo = x_inimigo_proximo;
