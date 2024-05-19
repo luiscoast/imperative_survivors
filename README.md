@@ -44,4 +44,4 @@ Membros:
 
 .Demetrius souza - dspj@cesar.school
 
-.Luis "" - ""
+.Luis Augusto Cardoso Costa lacc2@cesar.school
