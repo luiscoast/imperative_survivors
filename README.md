@@ -34,7 +34,7 @@ Executando o Jogo :
 
 Para executar o Imperative Survivor, Siga as seguintes etapas :
 
-1. Clone este repositório em sua máquina : " "
+1. Clone este repositório em sua máquina : git clone https://github.com/luiscoast/imperative_survivors.git
 
 2. Compile o programa: 
 
