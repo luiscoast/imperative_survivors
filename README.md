@@ -26,7 +26,7 @@ a partida para o úsuario.
 
 Como Jogar:
 
-Use as teclas do teclado "w" "a" "s" "d" para conatrolar o usuario
+Use as teclas do teclado "w" "a" "s" "d" para conatrolar o usuario,
 e as teclas " " " " " " para atirar com as armas que terão intervalos 
 de tempo para cada tiro
 
