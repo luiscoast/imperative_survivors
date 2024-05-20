@@ -1,10 +1,10 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "keyboard.h"
 #include "screen.h"
 #include "timer.h"
-
 
 struct Inimigo {
     int x_inimigo;
@@ -17,17 +17,15 @@ struct Personagem {
     int y_personagem;
 };
 
-
-
 void print_personagem( struct Personagem *personagem, int ch) {
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(personagem->x_personagem, personagem->y_personagem);
-    printf("     \n     \n     \n     \n     \n");//print que aoaga o personagem
+    printf(" ");//print que aoaga o personagem
 
-    if (ch == 119) {
+    if (ch == 115) {
         personagem->y_personagem++;
     }
-    if (ch == 115){
+    if (ch == 119){
         personagem->y_personagem--;
     }
     if (ch == 97){
@@ -37,47 +35,33 @@ void print_personagem( struct Personagem *personagem, int ch) {
         personagem->x_personagem++;
     }
 
-
-    screenGotoxy(x, y);
-    printf("  █  \n█████\n ███ \n ███ \n █ █ \n");//Print do personagem aonde ele vai ficar
+    screenGotoxy(personagem->x_personagem, personagem->y_personagem);
+    printf("x");//Print do personagem aonde ele vai ficar
 }
 
-void novo_local_personagem(struct Personagem *personagem, int ch) {
-
-    if (ch == 119) {
-        personagem->y_personagem++;
-    }
-    if (ch == 115){
-        personagem->y_personagem--;
-    }
-    if (ch == 97){
-        personagem->x_personagem--;
-    }
-    if (ch == 100){
-        personagem->x_personagem++;
-    }
-}
 
 void print_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) {
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
-    printf("     \n     \n     \n     \n     \n");
+    printf("  \n  ");
     void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
-    printf("  █  \n█████\n ███ \n ███ \n █ █ \n");
+    printf("██\n██");
 }
 
-void print_de_todos_os_inimigos(struct Inimigo **exercito, struct Personagem *personagem){
-    struct Inimigo *aux, *inimigo = *exercito;
-    if (*exercito == NULL){
-        return;
+void spawnar_inimigo(struct Inimigo **exercito){
+    struct Inimigo *novo_inimigo = malloc(sizeof(struct Inimigo));
+    novo_inimigo->x_inimigo = 70;
+    novo_inimigo->y_inimigo = 20;
+    novo_inimigo->proximo = *exercito;
+    *exercito = novo_inimigo;
+}
+
+void print_de_todos_os_inimigos(struct Inimigo *inimigo, struct Personagem *personagem){
+    while(inimigo){
+        print_inimigo(inimigo, personagem);
+        inimigo = inimigo->proximo;
     }
-    aux = *exercito;
-    while(aux->proximo){
-        print_inimigo(aux, personagem);
-        aux = aux->proximo;
-    }
-    return;
 }
 
 
@@ -118,26 +102,28 @@ void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) 
 int main() {
     static int ch = 0;
     struct Personagem personagem;
-    personagem.x_personagem = 1;
-    personagem.y_personagem = 1;
+    personagem.x_personagem = 10;
+    personagem.y_personagem = 10;
+    struct Inimigo *exercito = NULL;
 
     screenInit(1);
     keyboardInit();
-    timerInit(50);
+    timerInit(500);
 
+    print_personagem( &personagem, ch);
+    spawnar_inimigo(&exercito);
     screenUpdate();
-
     while (ch != 10) // enter
     {
-        // Handle user input
-        if (keyhit()) {
+        if (keyhit())
+        {
             ch = readch();
-            printKey(ch);
+            print_personagem(&personagem, ch);
             screenUpdate();
         }
 
         if (timerTimeOver() == 1) {
-            print_de_todos_os_inimigos(Inimigo **exercito, Personagem *personagem);
+            print_de_todos_os_inimigos(exercito, &personagem);
             screenUpdate();
         }
     }
