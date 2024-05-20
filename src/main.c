@@ -17,6 +17,12 @@ struct Personagem {
     int y_personagem;
 };
 
+void print_personagem( struct Personagem *personagem, int ch);
+void print_inimigo(struct Inimigo *inimigo, struct Personagem *personagem);
+void spawnar_inimigo(struct Inimigo **exercito);
+void print_de_todos_os_inimigos(struct Inimigo *inimigo, struct Personagem *personagem);
+void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem);
+
 void print_personagem( struct Personagem *personagem, int ch) {
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(personagem->x_personagem, personagem->y_personagem);
@@ -44,7 +50,7 @@ void print_inimigo(struct Inimigo *inimigo, struct Personagem *personagem) {
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
     printf("  \n  ");
-    void novo_local_inimigo(struct Inimigo *inimigo, struct Personagem *personagem);
+    novo_local_inimigo(inimigo,personagem);
     screenGotoxy(inimigo->x_inimigo, inimigo->y_inimigo);
     printf("██\n██");
 }
