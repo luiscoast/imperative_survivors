@@ -12,7 +12,7 @@ Objetivo do jogo :
 Seguindo o jogo vampire survivors, o usuario ira ter que sobreviver
 o máximo de tempo que ele conseguir dos ataques dos monstros inimigos.
 
-A cada 4 segundos irão spawnar 10% mais inimigos para que dificulte 
+A cada 4 segundos ira spawnar mais um inimigo para que dificulte 
 a partida para o úsuario.
 
 Como Jogar:
@@ -23,9 +23,9 @@ Para executar o Imperative Survivor, Siga as seguintes etapas :
 
 1. Clone este repositório em sua máquina : git clone https://github.com/luiscoast/imperative_survivors.git
 
-2. Compile o programa: 
+2. Compile o programa: gcc -g main.c keyboard.c screen.c timer.c -o executable
 
-3. Rode o programa:
+3. Rode o programa: ./executable
 
 Membros:
 
