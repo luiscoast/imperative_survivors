@@ -164,7 +164,6 @@ void wipar_exercito(struct Inimigo **exercito){
 int main() {
 
     static int ch = 0;
-    int tempo_vivo = 0;
     struct Personagem personagem;
     personagem.x_personagem = 10;
     personagem.y_personagem = 10;
@@ -212,7 +211,6 @@ int main() {
                 contador_do_spawn = 0;
             }
             inimigo_contador++;
-            tempo_vivo++;
             contador_do_spawn++;
         }
     }
