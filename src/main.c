@@ -34,16 +34,16 @@ void print_personagem(struct Personagem *personagem, int ch) {
     screenGotoxy(personagem->x_personagem, personagem->y_personagem);
     printf(" ");
 
-    if (ch == 115 && personagem->y_personagem < 19) { // tecla 'w'
+    if (ch == 115 && personagem->y_personagem < 19) {
         personagem->y_personagem++;
     }
-    if (ch == 119 && personagem->y_personagem > 2) { // tecla 's'
+    if (ch == 119 && personagem->y_personagem > 2) {
         personagem->y_personagem--;
     }
-    if (ch == 97 && personagem->x_personagem > 2) { // tecla 'a'
+    if (ch == 97 && personagem->x_personagem > 2) {
         personagem->x_personagem--;
     }
-    if (ch == 100 && personagem->x_personagem < 70) { // tecla 'd'
+    if (ch == 100 && personagem->x_personagem < 70) {
         personagem->x_personagem++;
     }
 
@@ -126,23 +126,39 @@ void mostra_tempo_vivo(int tempo_vivo) {
     screenGotoxy(10, 10);
     printf("Tempo vivo: %d segundos\n", tempo_vivo);
     screenGotoxy(10, 11);
-    printf("Pressione Enter para sair...");
+    printf("Parabéns, agora entre para a história:");
     screenUpdate();
 
-    while (getchar() != '\n');
 }
 
-void tela_inicial(){
-    screenInit(1);
-    screenSetColor(WHITE, BLACK);
-    screenGotoxy(30, 19);
-    printf("IMPERATIVE SURVIVORS");
-    screenGotoxy(30, 14);
-    printf("Pressione 1 para iniciar o jogo");
-    screenGotoxy(30, 13);
-    printf("Pressione 2 para olhar a tabela de classificação");
-    screenGotoxy(30, 12);
-    printf("Pressione 3 para encerrar o jogo");
+void salvar_tabela(int tempo_vivo) {
+    char nome[100];
+    screenGotoxy(10, 12);
+    printf("Digite seu apelido: ");
+    screenUpdate();
+
+    fgets(nome, sizeof(nome), stdin);
+
+    FILE *file = fopen("tabela.txt", "a");
+    if (file != NULL) {
+        fprintf(file, "%s %d\n", nome, tempo_vivo);
+        fclose(file);
+    }
+
+}
+
+
+void wipar_exercito(struct Inimigo **exercito){
+    struct Inimigo *atual = *exercito;
+    struct Inimigo *aux;
+    while (atual != NULL){
+        aux = atual ->proximo;
+        free(atual);
+        atual = aux;
+    }
+    *exercito = NULL;
+
+
 }
 
 int main() {
@@ -156,7 +172,8 @@ int main() {
     time_t inicio, fim;
 
     int inimigo_contador = 0;
-    int inimigo_intervalo = 2; // aumenta e diminui a velocidade do inimigo
+    int inimigo_intervalo = 2;
+    int contador_do_spawn = 0;
 
     screenInit(1);
     keyboardInit();
@@ -180,19 +197,27 @@ int main() {
             if (inimigo_contador % inimigo_intervalo == 0) {
                 print_de_todos_os_inimigos(exercito, &personagem);
                 if (checa_colisoes(&personagem, exercito)) {
-                   break;
+                    time(&fim);
+                    int tempo_total_vivo = difftime(fim, inicio);
+                    mostra_tempo_vivo(tempo_total_vivo);
+                    salvar_tabela(tempo_total_vivo);
+                    wipar_exercito(&exercito);
+                    break;
+
                 }
                 screenUpdate();
             }
+            if(contador_do_spawn >= 100){
+                spawnar_inimigo(&exercito);
+                contador_do_spawn = 0;
+            }
             inimigo_contador++;
             tempo_vivo++;
+            contador_do_spawn++;
         }
     }
 
-    time(&fim);
-    int tempo_total_vivo = difftime(fim, inicio);
 
-    mostra_tempo_vivo(tempo_total_vivo);
 
     keyboardDestroy();
     screenDestroy();
